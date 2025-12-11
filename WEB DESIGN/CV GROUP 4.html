@@ -1,0 +1,540 @@
+<GROUP 4 html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> Curriculum Vitae</title>
+
+  <!-- Elegant font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#eef2f6; --card:#ffffff; --text:#0b1220; --muted:#586273;
+      --accent1:#ff6b6b; --accent2:#4dabf7; --accent3:#51cf66; --accent4:#845ef7; --accent5:#f06595; --accent6:#ffa94d;
+      --glass: rgba(255,255,255,0.08);
+    }
+    /* Dark mode variables */
+    .dark{
+      --bg:#0b0f14; --card:#0f1720; --text:#e6eef6; --muted:#95a3b3; --glass: rgba(255,255,255,0.03);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      transition: background 0.45s ease, color 0.45s ease;
+    }
+
+    /* Animated gradient header */
+    header{
+      padding:30px 20px; text-align:center; color:#fff; position:relative; overflow:hidden;
+      background: linear-gradient(90deg,#141e30,#243b55);
+      background-size:300% 300%;
+      animation: gradientShift 8s ease infinite;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+    }
+    @keyframes gradientShift{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    header h1{font-size:28px;letter-spacing:1px;margin:0 0 8px}
+    header p{opacity:0.9;margin:0;font-size:14px}
+
+    /* top controls */
+    .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:16px}
+    /* dark mode toggle (CSS only) */
+    .toggle{
+      display:flex;align-items:center;gap:10px;background:var(--glass);padding:6px;border-radius:999px;backdrop-filter:blur(6px);
+    }
+    .toggle input{display:none}
+    .toggle .moon{width:18px;height:18px;display:inline-block}
+    .toggle label{cursor:pointer;color:var(--text);font-weight:600;font-size:13px}
+
+    /* NAV using radio buttons (no JS) */
+    .tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:18px 12px;align-items:center}
+    .tabs input[type=radio]{display:none}
+    .tabs label{
+      cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--glass);color:var(--text);font-weight:600;text-decoration:none;transition:transform .25s ease, background .25s;
+      box-shadow: 0 6px 18px rgba(12,17,24,0.06);
+    }
+    .tabs label:hover{transform:translateY(-4px)}
+    .tabs svg{width:20px;height:20px;opacity:0.95}
+
+    /* When a tab is checked, style it */
+    #t1:checked ~ .tabs label[for=t1],
+    #t2:checked ~ .tabs label[for=t2],
+    #t3:checked ~ .tabs label[for=t3],
+    #t4:checked ~ .tabs label[for=t4],
+    #t5:checked ~ .tabs label[for=t5],
+    #t6:checked ~ .tabs label[for=t6]{
+      background:linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.02)); transform:scale(1.03);
+    }
+
+    /* Containers */
+    .wrap{max-width:1100px;margin:28px auto;padding:0 18px}
+    .card{
+      background:var(--card);border-radius:20px;padding:34px;box-shadow:0 16px 40px rgba(12,20,30,0.08);position:relative;overflow:hidden;min-height:360px;transition:transform .45s ease, box-shadow .45s ease;
+    }
+
+    /* radio -> show corresponding section (CSS only) */
+    .person{display:none;opacity:0;transform:translateY(20px);transition:all .6s ease}
+    #t1:checked ~ .wrap #p1,
+    #t2:checked ~ .wrap #p2,
+    #t3:checked ~ .wrap #p3,
+    #t4:checked ~ .wrap #p4,
+    #t5:checked ~ .wrap #p5,
+    #t6:checked ~ .wrap #p6{display:block;opacity:1;transform:translateY(0)}
+
+    /* Accent bars for each person */
+    .accent{height:12px;width:100%;position:absolute;left:0;top:0}
+    #p1 .accent{background:linear-gradient(90deg,var(--accent1),#ff9b9b)}
+    #p2 .accent{background:linear-gradient(90deg,var(--accent2),#9fd8ff)}
+    #p3 .accent{background:linear-gradient(90deg,var(--accent3),#9ef3b0)}
+    #p4 .accent{background:linear-gradient(90deg,var(--accent4),#bda8ff)}
+    #p5 .accent{background:linear-gradient(90deg,var(--accent5),#ffc1df)}
+    #p6 .accent{background:linear-gradient(90deg,var(--accent6),#ffd79a)}
+
+    /* layout inside person card */
+    .left{max-width:62%;float:left}
+    .right{max-width:36%;float:right;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+    .portrait{width:190px;height:190px;border-radius:14px;object-fit:cover;box-shadow:0 12px 30px rgba(2,8,23,0.12);transform:translateY(0);transition:transform .5s cubic-bezier(.2,.9,.2,1)}
+    .portrait:hover{transform:translateY(-8px) scale(1.02)}
+
+    h2.name{font-size:26px;margin-bottom:6px}
+    .sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+
+    .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .info-row{padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(0,0,0,0.02),transparent);}
+    .info-row strong{display:block;font-weight:700;margin-bottom:6px}
+    .info-row span{color:var(--muted);font-size:14px}
+
+    /* Little animated icons */
+    .icon-small{width:42px;height:42px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--glass);backdrop-filter:blur(6px)}
+    .icon-small svg{width:20px;height:20px}
+
+    /* glow hover */\    .card:hover{box-shadow:0 28px 60px rgba(12,20,30,0.18);transform:translateY(-6px)}
+
+    /* Floating decorative circles */
+    .decor{position:absolute;border-radius:999px;opacity:.08;filter:blur(20px);pointer-events:none}
+    .decor.c1{width:220px;height:220px;background:var(--accent2);right:-40px;top:-60px}
+    .decor.c2{width:120px;height:120px;background:var(--accent5);left:-30px;bottom:-50px}
+
+    /* Reveal animations when switching tabs */
+    .person{animation:fadeInUp .6s ease both}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .left,.right{float:none;max-width:100%}
+      .right{align-items:center}
+      .portrait{width:160px;height:160px}
+      .info-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:520px){
+      header h1{font-size:20px}
+      .tabs label{padding:8px 12px;font-size:13px}
+      .wrap{padding:0 12px}
+      .portrait{width:140px;height:140px}
+    }
+
+    /* Dark-mode toggle effect using checkbox */
+    #dm:checked ~ .site{filter:brightness(.98)}
+    #dm:checked ~ .site{--bg:#071017;--card:#08121a;--text:#e6eef6;--muted:#9fb0c4}
+
+    /* small helper to show currently selected tab dot */
+    .dot{width:8px;height:8px;border-radius:999px;display:inline-block}
+    #t1:checked ~ .tabs label[for=t1] .dot{background:var(--accent1)}
+    #t2:checked ~ .tabs label[for=t2] .dot{background:var(--accent2)}
+    #t3:checked ~ .tabs label[for=t3] .dot{background:var(--accent3)}
+    #t4:checked ~ .tabs label[for=t4] .dot{background:var(--accent4)}
+    #t5:checked ~ .tabs label[for=t5] .dot{background:var(--accent5)}
+    #t6:checked ~ .tabs label[for=t6] .dot{background:var(--accent6)}
+
+  </style>
+</head>
+<body>
+
+  <!-- darkmode checkbox (controls CSS vars) -->
+  <input id="dm" type="checkbox" style="display:none">
+  <div class="site">
+
+    <header>
+      <h1>Curriculum Vitae ng mga Pogi</h1>
+      <p>• Progress over Pressure •</p>
+
+      <div class="controls">
+        <div class="toggle">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="#fff"/></svg>
+          <label for="dm" onclick="document.getElementById('dm').checked = !document.getElementById('dm').checked">Toggle Dark</label>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- radio inputs to control tabs -->
+    <input id="t1" type="radio" name="tab" checked>
+    <input id="t2" type="radio" name="tab">
+    <input id="t3" type="radio" name="tab">
+    <input id="t4" type="radio" name="tab">
+    <input id="t5" type="radio" name="tab">
+    <input id="t6" type="radio" name="tab">
+
+    <nav class="tabs">
+      <label for="t1">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a3 3 0 100-6 3 3 0 000 6zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Valencia
+      </label>
+
+      <label for="t2">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a3 3 0 100-6 3 3 0 000 6zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Alvez
+      </label>
+
+      <label for="t3">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a3 3 0 100-6 3 3 0 000 6zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Beran
+      </label>
+
+      <label for="t4">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a3 3 0 100-6 3 3 0 000 6zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Bajala
+      </label>
+
+      <label for="t5">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a3 3 0 100-6 3 3 0 000 6zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Angeles
+      </label>
+
+      <label for="t6">
+        <span class="dot"></span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a3 3 0 100-6 3 3 0 000 6zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Ferrer
+      </label>
+    </nav>
+
+    <div class="wrap">
+
+      <!-- person 1 -->
+      <div id="p1" class="person card">
+        <div class="accent"></div>
+        <div class="decor c1"
+    <style="background-color: gold;"></div>
+
+        <div class="left">
+          <h2 class="name">Xsandrix Mhiro L. Valencia</h2>
+          <div class="sub">Student • Print Media Technology</div>
+
+          <div class="info-grid" style="margin-top:8px">
+            <div class="info-row"><strong>Parents</strong><span>Father: Salvador G. Valencia<br/>Mother: Romylyn L. Valencia</span></div>
+            <div class="info-row"><strong>Birthdate</strong><span>October 11, 2004</span></div>
+
+            <div class="info-row"><strong>Religion</strong><span>Seventh Day Adventist</span></div>
+            <div class="info-row"><strong>Nationality</strong><span>Filipino</span></div>
+
+            <div class="info-row"><strong>Gender</strong><span>Male</span></div>
+            <div class="info-row"><strong>Phone</strong><span>09917547615</span></div>
+
+            <div class="info-row"><strong>Address</strong><span>Blk 8C Lot 16 Kingstown 1 Bagumbong, Caloocan City</span></div>
+            <div class="info-row"><strong>Qualification</strong><span>Print Media Technology</span></div>
+
+            <div class="info-row" style="grid-column:1/-1"><strong>Educational Background</strong><span>
+<strong>College</strong>
+Technological University of the Philippines-Manila (2025)<br>
+
+<strong>Senior High</strong>
+Escuela de Sophia of Caloocan Inc. (2022-2024)<br>
+With Honors<br>
+
+<strong>Junior High</strong>
+Bagumbong High School (2018-2022)<br>
+With High Honors<br>
+
+<strong>Elementary</strong>
+Sta. Quiteria Elementary School (2011-2017)<br>
+With Honors</span></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <img class="portrait" src="C:\Users\Mhincer Valencia\Desktop\CODING\WEB DESIGN\PICTURES\Drix.jpg" alt="Drix Portrait">
+
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="icon-small" title="Email">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9 6 9-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="icon-small" title="Location">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 11a3 3 0 100-6 3 3 0 000 6zM21 21s-4-5.333-9-5.333S3 21 3 21" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <!-- person 2 -->
+      <div id="p2" class="person card">
+        <div class="accent"></div>
+        <div class="left">
+          <h2 class="name">John Ronel Alvez</h2>
+          <div class="sub">Student • Print Media Technology</div>
+
+          <div class="info-grid" style="margin-top:8px">
+            <div class="info-row"><strong>Parents</strong><span>Father: Rodrigo Alvez<br/>Mother: Jeaneth De Ocampo</span></div>
+            <div class="info-row"><strong>Birthdate</strong><span>November 25, 2006</span></div>
+
+            <div class="info-row"><strong>Religion</strong><span>Roman Catholic</span></div>
+            <div class="info-row"><strong>Nationality</strong><span>Filipino</span></div>
+
+            <div class="info-row"><strong>Gender</strong><span>Male</span></div>
+            <div class="info-row"><strong>Phone</strong><span>09946637084</span></div>
+
+            <div class="info-row"><strong>Address</strong><span>Tugatog, Malabon City, Philippines</span></div>
+            <div class="info-row"><strong>Qualification</strong><span>Print Media Technology</span></div>
+
+            <div class="info-row" style="grid-column:1/-1"><strong>Educational Background</strong><span>
+<strong>College</strong>
+Technological University of the Philippines-Manila (2025)<br>
+
+<strong>Senior High</strong>
+Malabon City National Science and Mathematics High School (2023-2025)<br>
+With Honors<br>
+
+<strong>Junior High</strong>
+Acacia National High School (2019-2023)<br>
+With High Honors<br>
+
+<strong>Elementary</strong>
+Acacia Elementary School (2013-2019)<br>
+With Honors</span></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <img class="portrait" src="C:\Users\Mhincer Valencia\Desktop\CODING\WEB DESIGN\PICTURES\Alvez.jpg" alt="Alvez portrait">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="icon-small" title="Phone">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92V20a2 2 0 0 1-2 2 19 19 0 0 1-8.63-2.58A19 19 0 0 1 3 8.63 2 2 0 0 1 5 6h3.09a1 1 0 0 1 1 .75l.83 3A1 1 0 0 1 10 11l-.34 1.02a11 11 0 0 0 4.9 4.9L16 16a1 1 0 0 1 .25 1l3 .83a1 1 0 0 1 .75 1V20z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="icon-small" title="Website">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <!-- person 3 -->
+      <div id="p3" class="person card">
+        <div class="accent"></div>
+        <div class="left">
+          <h2 class="name">John Maurice B. Beran</h2>
+          <div class="sub">Student • Print Media Technology</div>
+
+          <div class="info-grid" style="margin-top:8px">
+            <div class="info-row"><strong>Parents</strong><span>Father: Marlon Antonio C. Beran <br/>Mother: Eirice A. Bautista</span></div>
+            <div class="info-row"><strong>Birthdate</strong><span>May 16, 2007</span></div>
+
+            <div class="info-row"><strong>Religion</strong><span>Methodist</span></div>
+            <div class="info-row"><strong>Nationality</strong><span>Filipino</span></div>
+
+            <div class="info-row"><strong>Gender</strong><span>Male</span></div>
+            <div class="info-row"><strong>Phone</strong><span>09763034163</span></div>
+
+            <div class="info-row"><strong>Address</strong><span>5 Siagu, Urduja, Caloocan city, Brgy 172</span></div>
+            <div class="info-row"><strong>Qualification</strong><span>Print Media Technology</span></div>
+
+            <div class="info-row" style="grid-column:1/-1"><strong>Educational Background</strong><span>
+<strong>College</strong>
+Technological University of the Philippines-Manila (2025)<br>
+
+<strong>Senior High</strong>
+Our Lady of Fatima University, Quezon City (2023-2025)<br>
+
+<strong>Junior High</strong>
+St. Mary's School of Novaliches, Quezon City (2019-2023)<br>
+
+<strong>Elementary</strong>
+St. Mary's School of Novaliches, Quezon City (2014-2019)<br>
+St. Claire (2013-2014)</span></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <img class="portrait" src="C:\Users\Mhincer Valencia\Desktop\CODING\WEB DESIGN\PICTURES\Beran.jpg" alt="Beran portrait">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="icon-small" title="Github">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 3.87 2.91 7 6.75 7.88.5.09.68-.22.68-.5v-1.79c-2.75.6-3.33-1.25-3.33-1.25-.45-1.15-1.11-1.46-1.11-1.46-.9-.6.07-.6.07-.6 1 .07 1.6 1.05 1.6 1.05.9 1.6 2.45 1.15 3.05.88.09-.7.35-1.15.63-1.42-2.2-.25-4.5-1.1-4.5-4.9 0-1.1.39-2 .99-2.71-.1-.25-.43-1.28.09-2.66 0 0 .81-.26 2.65 1.02A9.1 9.1 0 0112 6.8c.82.004 1.65.11 2.42.32 1.84-1.28 2.65-1.02 2.65-1.02.52 1.38.19 2.4.09 2.66.61.71.99 1.62.99 2.71 0 3.82-2.3 4.64-4.5 4.9.36.31.68.92.68 1.86v2.76c0 .28.18.6.69.5C16.09 16 19 12.87 19 9c0-3.87-3.13-7-7-7z" fill="#fff"/></svg>
+            </div>
+            <div class="icon-small" title="Codepen">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5zM3 7l9 5 9-5M3 17l9-5 9 5" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <!-- person 4 -->
+      <div id="p4" class="person card">
+        <div class="accent"></div>
+        <div class="left">
+          <h2 class="name">Paul Nathaniel C. Bajala</h2>
+          <div class="sub">Student • Print Media Technology</div>
+
+          <div class="info-grid" style="margin-top:8px">
+            <div class="info-row"><strong>Parents</strong><span>Father: Paul R. Bajala<br/>Mother: Daisy Esperanza-Bajala</span></div>
+            <div class="info-row"><strong>Birthdate</strong><span>July 12, 2007</span></div>
+
+            <div class="info-row"><strong>Religion</strong><span>Roman Catholic</span></div>
+            <div class="info-row"><strong>Nationality</strong><span>Filipino</span></div>
+
+            <div class="info-row"><strong>Gender</strong><span>Male</span></div>
+            <div class="info-row"><strong>Phone</strong><span>09162226481</span></div>
+
+            <div class="info-row"><strong>Address</strong><span>19-U, Road 5, First West Crame, San Juan City</span></div>
+            <div class="info-row"><strong>Qualification</strong><span>Print Media Technology</span></div>
+
+            <div class="info-row" style="grid-column:1/-1"><strong>Educational Background</strong><span>
+<strong>College</strong>
+Technological University of the Philippines-Manila(2025)<br>
+
+<strong>Senior High</strong>
+STI College-Cubao (2022-2024)<br>
+
+<strong>Junior High</strong>
+Camp General Emilio Aguinaldo High School (2016-2020)<br>
+
+<strong>Elementary</strong>
+Brittany Christian Academy (2012-2016)<br>
+Pinaglabanan Elementary School(2011-2012)</span></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <img class="portrait" src="C:\Users\Mhincer Valencia\Desktop\CODING\WEB DESIGN\PICTURES\Bajala.jpg" alt="Paul portrait">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="icon-small" title="Portfolio">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18v11a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="icon-small" title="Instagram">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#fff" stroke-width="1.6"/><path d="M8 11.37a4 4 0 108 0 4 4 0 00-8 0z" stroke="#fff" stroke-width="1.6"/><path d="M17.5 6.5h.01" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <!-- person 5 -->
+      <div id="p5" class="person card">
+        <div class="accent"></div>
+        <div class="left">
+          <h2 class="name">Dominick M. Angeles</h2>
+          <div class="sub">Student • Print Media Technology</div>
+
+          <div class="info-grid" style="margin-top:8px">
+            <div class="info-row"><strong>Parents</strong><span>Father:  Nicanor F. Angeles Jr.<br/>Mother: Donna S. Maniego</span></div>
+            <div class="info-row"><strong>Birthdate</strong><span>June 9, 2007</span></div>
+
+            <div class="info-row"><strong>Religion</strong><span>Roman Catholic</span></div>
+            <div class="info-row"><strong>Nationality</strong><span>Filipino</span></div>
+
+            <div class="info-row"><strong>Gender</strong><span>Male</span></div>
+            <div class="info-row"><strong>Phone</strong><span> 09617059223</span></div>
+
+            <div class="info-row"><strong>Address</strong><span>Coastal Blk 1 E,M Factor Road Don Galo Paranaque City</span></div>
+            <div class="info-row"><strong>Qualification</strong><span>Print Media Technology</span></div>
+
+            <div class="info-row" style="grid-column:1/-1"><strong>Educational Background</strong><span>
+<strong>College</strong>
+Technological University of the Philippines-Manila (2025)<br>
+
+<strong>Senior High</strong>
+Datamex Saint Adeline (2023-2025)<br>
+With Honors
+
+<strong>Junior High</strong>
+Don Galo National High School (2019-2023)<br>
+
+<strong>Elementary</strong>
+Don Galo Elementary School (2013-2019)</span></div>
+          </div>
+        </div>
+
+        <div class="right">
+          <img class="portrait" src="C:\Users\Mhincer Valencia\Desktop\CODING\WEB DESIGN\PICTURES\Angeles.jpg" alt="Emma portrait">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="icon-small" title="YouTube">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22 7.2a2.3 2.3 0 00-1.6-1.6C18.6 5 12 5 12 5s-6.6 0-8.4.6A2.3 2.3 0 002 7.2 24 24 0 002 12a24 24 0 00.6 4.8 2.3 2.3 0 001.6 1.6C5.4 19 12 19 12 19s6.6 0 8.4-.6a2.3 2.3 0 001.6-1.6A24 24 0 0022 12a24 24 0 00-.6-4.8z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="icon-small" title="Tiktok">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 3v12a4 4 0 104 4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+      <!-- person 6 -->
+      <div id="p6" class="person card">
+        <div class="accent"></div>
+        <div class="left">
+          <h2 class="name">Hyuan Aris U. Ferrer</h2>
+          <div class="sub">Student • Print Media Technology</div>
+
+          <div class="info-grid" style="margin-top:8px">
+            <div class="info-row"><strong>Parents</strong><span>Father: Reynante Jesus G. Ferrer<br/>Mother: Coralyn C. Ureta</span></div>
+            <div class="info-row"><strong>Birthdate</strong><span>March 29, 2004</span></div>
+
+            <div class="info-row"><strong>Religion</strong><span>Roman Catholic</span></div>
+            <div class="info-row"><strong>Nationality</strong><span>Filipino</span></div>
+
+            <div class="info-row"><strong>Gender</strong><span>Male</span></div>
+            <div class="info-row"><strong>Phone</strong><span>09282482174</span></div>
+
+            <div class="info-row"><strong>Address</strong><span>321 Paulicas St. Maypajo Caloocan City</span></div>
+            <div class="info-row"><strong>Qualification</strong><span>Print Media Technology</span></div>
+
+            <div class="info-row" style="grid-column:1/-1"><strong>Educational Background</strong><span>
+<strong>College</strong>
+Technological University of the Philippines-Manila (2025)<br>
+
+<strong>Senior High</strong>
+Elisa Esguerra Arellano University (2020-2023)<br>
+With Honors
+
+<strong>Junior High</strong>
+Kasarinlan High School-SDO-Caloocan City (2016-2020)<br>
+
+<strong>Elementary</strong>
+Kasarinlan Elemntary School (2010-2016)<br>
+With Honors</span></div>
+          </div>
+        </div>
+        <div class="right">
+          <img class="portrait" src="C:\Users\Mhincer Valencia\Desktop\CODING\WEB DESIGN\PICTURES\Ferrer.jpg" alt="Ferrer portrait">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="icon-small" title="Behance">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="icon-small" title="Dribbble">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="clear:both"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
